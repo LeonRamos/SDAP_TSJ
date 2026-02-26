@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ingresar | Sistema de Detección y Apoyo Psicológico TSJ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body class="body-root">
+  <header class="site-header">
+    <div class="header-top">
+      <div class="header-logos">
+        <a href="./index.html" class="logo-tecnm">TecNM</a>
+        <span class="logo-tsj">TSJ</span>
+      </div>
+      <nav class="header-nav">
+        <a href="./index.html">Inicio</a>
+        <a href="https://www.tecmm.edu.mx/" target="_blank" rel="noopener">TecMM</a>
+        <a href="https://enlinea.tecmm.mx/moodle/" target="_blank" rel="noopener">TecMM en línea</a>
+      </nav>
+    </div>
+    <div class="header-main login-header-main">
+      <div class="header-title-block">
+        <h1>Acceso al sistema</h1>
+        <p class="header-subtitle">
+          Ingresa con tu cuenta institucional de estudiante o con las credenciales
+          proporcionadas por el equipo de investigación del TSJ.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="section auth-section" id="ingreso">
+      <div class="auth-grid">
+        <div class="card auth-card">
+          <h2>Iniciar sesión</h2>
+          <form id="loginForm" class="auth-form">
+            <label class="form-field">
+              <span>Usuario institucional</span>
+              <input
+                type="text"
+                name="username"
+                autocomplete="username"
+                required
+                placeholder="ej. a123456@tsj.edu.mx"
+              />
+            </label>
+            <label class="form-field">
+              <span>Contraseña</span>
+              <input
+                type="password"
+                name="password"
+                autocomplete="current-password"
+                required
+              />
+            </label>
+            <button type="submit" class="btn btn-primary auth-submit">
+              Ingresar
+            </button>
+            <p class="form-help">
+              Si tienes problemas para acceder, contacta al área de tutorías
+              o al equipo de investigación del sistema.
+            </p>
+            <p class="form-small-link">
+              ¿Aún no tienes cuenta? <a href="#registro">Registrarte como estudiante</a>
+            </p>
+          </form>
+        </div>
+
+        <div class="card auth-card" id="registro">
+          <h2>Registro de estudiante</h2>
+          <form id="registerForm" class="auth-form">
+            <label class="form-field">
+              <span>Nombre (opcional)</span>
+              <input
+                type="text"
+                name="displayName"
+                placeholder="Puedes usar solo tu nombre o un seudónimo"
+              />
+            </label>
+            <label class="form-field">
+              <span>Correo institucional</span>
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="ej. a123456@tsj.edu.mx"
+              />
+            </label>
+            <label class="form-field">
+              <span>Contraseña</span>
+              <input
+                type="password"
+                name="password"
+                required
+              />
+            </label>
+            <label class="form-field">
+              <span>Confirmar contraseña</span>
+              <input
+                type="password"
+                name="passwordConfirm"
+                required
+              />
+            </label>
+            <label class="form-field form-checkbox">
+              <input type="checkbox" name="terms" required />
+              <span>
+                Acepto que mis respuestas se utilicen de forma confidencial
+                para fines de apoyo psicológico y análisis académico del TSJ.
+              </span>
+            </label>
+            <button type="submit" class="btn btn-outline auth-submit">
+              Registrarme
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>
+        &copy; 2026 Tecnológico Superior de Jalisco · Sistema de Detección y Apoyo Psicológico.
+      </p>
+    </div>
+  </footer>
+
+  <script src="./js/views/login.js"></script>
+</body>
+</html>

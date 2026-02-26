@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panel de Psicología | Sistema TSJ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body class="body-root">
+  <header class="site-header">
+    <div class="header-top">
+      <div class="header-logos">
+        <a href="./index.html" class="logo-tecnm">TecNM</a>
+        <span class="logo-tsj">TSJ</span>
+      </div>
+      <nav class="header-nav">
+        <a href="./index.html">Inicio</a>
+        <a href="#" id="logoutLink">Cerrar sesión</a>
+      </nav>
+    </div>
+    <div class="header-main login-header-main">
+      <div class="header-title-block">
+        <h1>Panel del área de Psicología</h1>
+        <p class="header-subtitle">
+          Visualiza solicitudes de apoyo realizadas por estudiantes y un resumen
+          agregado de niveles de riesgo detectados en los cuestionarios aplicados.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Resumen de riesgo -->
+    <section class="section">
+      <h2>Resumen de niveles de riesgo</h2>
+      <div class="cards-grid">
+        <article class="card">
+          <h3>GAD‑7 (Ansiedad)</h3>
+          <p id="gad7Summary" class="summary-text">
+            Cargando información…
+          </p>
+        </article>
+        <article class="card">
+          <h3>PHQ‑9 (Estado de ánimo)</h3>
+          <p id="phq9Summary" class="summary-text">
+            Cargando información…
+          </p>
+        </article>
+        <article class="card">
+          <h3>Bell‑Q (Adaptación)</h3>
+          <p id="bellqSummary" class="summary-text">
+            Cargando información…
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Solicitudes de apoyo -->
+    <section class="section">
+      <h2>Solicitudes de apoyo pendientes</h2>
+      <div class="card">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Estudiante</th>
+                <th>Correo</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="supportRequestsBody">
+              <tr>
+                <td colspan="6" class="table-empty">Cargando solicitudes…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="form-help">
+          Solo se muestran datos de contacto y comentarios proporcionados con consentimiento del estudiante.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>&copy; 2026 Tecnológico Superior de Jalisco · Sistema de Detección y Apoyo Psicológico.</p>
+    </div>
+  </footer>
+
+  <script src="./js/views/psych-dashboard.js"></script>
+</body>
+</html>

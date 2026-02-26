@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panel de Estudiante | Sistema TSJ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body class="body-root">
+  <header class="site-header">
+    <div class="header-top">
+      <div class="header-logos">
+        <a href="./index.html" class="logo-tecnm">TecNM</a>
+        <span class="logo-tsj">TSJ</span>
+      </div>
+      <nav class="header-nav">
+        <a href="./index.html">Inicio</a>
+        <a href="#" id="logoutLink">Cerrar sesión</a>
+      </nav>
+    </div>
+    <div class="header-main login-header-main">
+      <div class="header-title-block">
+        <h1>Bienvenido/a al sistema</h1>
+        <p class="header-subtitle" id="studentSubtitle">
+          Cargando información de tu cuenta…
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Acciones principales -->
+    <section class="section section-highlight">
+      <h2>¿Qué deseas hacer hoy?</h2>
+      <div class="cards-grid">
+        <article class="card">
+          <h3>Responder cuestionarios</h3>
+          <p>
+            Aplica los instrumentos GAD‑7, PHQ‑9 y Bell‑Q para conocer de manera
+            orientativa tu nivel de riesgo psicológico y tu adaptación al entorno universitario.
+          </p>
+          <a href="./questionnaire.html" class="btn btn-primary" style="margin-top:0.75rem;">
+            Empezar evaluación
+          </a>
+        </article>
+
+        <article class="card">
+          <h3>Ver mis últimas autoevaluaciones</h3>
+          <p>
+            Consulta el historial de cuestionarios que has respondido en este sistema
+            y revisa tus resultados previos (en esta versión piloto se muestran datos resumidos).
+          </p>
+          <a href="#historial" class="btn btn-outline" style="margin-top:0.75rem;">
+            Ir al historial
+          </a>
+        </article>
+
+        <article class="card">
+          <h3>Solicitar apoyo</h3>
+          <p>
+            Si lo consideras necesario, puedes solicitar que el área de psicología del TSJ
+            se ponga en contacto contigo para ofrecerte acompañamiento profesional.
+          </p>
+          <a href="./questionnaire.html#support" class="btn btn-outline" style="margin-top:0.75rem;">
+            Solicitar apoyo
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Historial simple (por ahora mock) -->
+    <section class="section" id="historial">
+      <h2>Historial de autoevaluaciones (piloto)</h2>
+      <div class="card">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Cuestionario</th>
+                <th>Puntaje</th>
+                <th>Nivel de riesgo</th>
+              </tr>
+            </thead>
+            <tbody id="historyBody">
+              <tr>
+                <td colspan="4" class="table-empty">Cargando historial…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="form-help">
+          En versiones posteriores, este historial se generará a partir de tus respuestas reales
+          almacenadas de forma confidencial en

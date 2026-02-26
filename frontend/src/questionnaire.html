@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cuestionarios | Sistema TSJ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body class="body-root">
+  <header class="site-header">
+    <div class="header-top">
+      <div class="header-logos">
+        <a href="./index.html" class="logo-tecnm">TecNM</a>
+        <span class="logo-tsj">TSJ</span>
+      </div>
+      <nav class="header-nav">
+        <a href="./student-dashboard.html">Panel estudiante</a>
+        <a href="#" id="logoutLink">Cerrar sesión</a>
+      </nav>
+    </div>
+    <div class="header-main login-header-main">
+      <div class="header-title-block">
+        <h1>Cuestionarios de autoevaluación</h1>
+        <p class="header-subtitle">
+          Responde los instrumentos seleccionados para el proyecto piloto. Comienza con el cuestionario GAD‑7 sobre ansiedad.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Selector de cuestionario -->
+    <section class="section">
+      <h2>Selecciona el cuestionario</h2>
+      <div class="card">
+        <label class="form-field">
+          <span>Instrumento</span>
+          <select id="questionnaireSelect">
+            <option value="gad7">GAD‑7 · Ansiedad</option>
+            <option value="phq9" disabled>PHQ‑9 · Estado de ánimo (próximamente)</option>
+            <option value="bellq" disabled>Bell‑Q · Adaptación (próximamente)</option>
+          </select>
+        </label>
+        <p class="form-help">
+          En esta versión piloto está habilitado el cuestionario GAD‑7. Más adelante se
+          integrarán PHQ‑9 y Bell‑Q según lo establecido en el protocolo.
+        </p>
+      </div>
+    </section>
+
+    <!-- Contenedor de cuestionario -->
+    <section class="section">
+      <h2>Responde el cuestionario seleccionado</h2>
+      <form id="questionnaireForm" class="card">
+        <p id="questionnaireIntro" class="form-help">
+          Indica con qué frecuencia te han afectado los siguientes problemas durante
+          las últimas dos semanas.
+        </p>
+        <div id="questionsContainer"></div>
+
+        <button type="submit" class="btn btn-primary auth-submit" style="margin-top:1rem;">
+          Enviar respuestas
+        </button>
+      </form>
+    </section>
+
+    <!-- Resultados -->
+    <section class="section" id="resultsSection" style="display:none;">
+      <h2>Resultados de tu autoevaluación</h2>
+      <div class="card">
+        <p id="resultsSummary"></p>
+        <p class="form-help">
+          Recuerda que este resultado no es un diagnóstico. Si te preocupa tu bienestar,
+          te recomendamos solicitar apoyo al área de psicología.
+        </p>
+        <a href="#support" class="btn btn-outline" style="margin-top:0.75rem;">
+          Solicitar apoyo
+        </a>
+      </div>
+    </section>
+
+    <!-- Solicitar apoyo -->
+    <section class="section" id="support">
+      <h2>Solicitar apoyo psicológico</h2>
+      <div class="card">
+        <form id="supportForm" class="auth-form">
+          <p class="form-help">
+            Si deseas que el área de psicología del TSJ se ponga en contacto contigo,
+            completa el siguiente formulario.
+          </p>
+          <label class="form-field">
+            <span>Correo de contacto</span>
+            <input type="email" name="contactEmail" required placeholder="ej. a123456@tsj.edu.mx" />
+          </label>
+          <label class="form-field">
+            <span>Comentario (opcional)</span>
+            <textarea name="comment" rows="3" placeholder="Puedes describir brevemente cómo te sientes o qué tipo de apoyo buscas."></textarea>
+          </label>
+          <label class="form-field form-checkbox">
+            <input type="checkbox" name="consent" required />
+            <span>
+              Acepto que mis datos sean utilizados de forma confidencial para que el área
+              de psicología del TSJ se comunique conmigo y, en su caso, me canalice a servicios de apoyo.
+            </span>
+          </label>
+          <button type="submit" class="btn btn-primary auth-submit">
+            Enviar solicitud
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>&copy; 2026 Tecnológico Superior de Jalisco · Sistema de Detección y Apoyo Psicológico.</p>
+    </div>
+  </footer>
+
+  <script src="./js/views/questionnaire.js"></script>
+</body>
+</html>
