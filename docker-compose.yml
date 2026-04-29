@@ -3,6 +3,8 @@ version: "3.9"
 services:
   db:
     image: postgres:16
+    container_name: tsj_postgres
+    restart: unless-stopped
     environment:
       POSTGRES_USER: tsj_user
       POSTGRES_PASSWORD: tsj_pass
@@ -14,14 +16,15 @@ services:
 
   backend:
     build: ./backend
-    command: node ./src/server.js
-    ports:
-      - "3000:3000"
+    container_name: tsj_backend
+    restart: unless-stopped
+    depends_on:
+      - db
     environment:
       DATABASE_URL: postgres://tsj_user:tsj_pass@db:5432/tsj_mental_health
       NODE_ENV: development
-    depends_on:
-      - db
+    ports:
+      - "3000:3000"
     volumes:
       - ./backend:/app
       - /app/node_modules

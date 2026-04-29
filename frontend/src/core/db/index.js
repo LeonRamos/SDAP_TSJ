@@ -2,7 +2,9 @@
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  connectionString: 'postgres://tsj_user:tsj_pass@localhost:5432/tsj_mental_health'
+  connectionString:
+    process.env.DATABASE_URL ||
+    'postgres://tsj_user:tsj_pass@localhost:5432/tsj_mental_health'
 });
 
 function query(text, params) {

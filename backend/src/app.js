@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./api/routes/auth');
+const questionnaireRoutes = require('./api/routes/questionnaires');
 
 const app = express();
 
@@ -12,5 +13,6 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
+app.use('/questionnaires', questionnaireRoutes); // <- ESTA LÍNEA ES CLAVE
 
 module.exports = app;

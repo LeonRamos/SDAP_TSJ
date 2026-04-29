@@ -1,79 +1,92 @@
 // backend/src/api/controllers/authController.js
+const { query } = require('../../core/db');
 
-// OJO: esto es temporal para el POC. Luego lo cambiamos a BD + hash.
-
-const demoUsers = [
-  {
-    id: 1,
-    username: 'demo.estudiante@tsj.edu.mx',
-    email: 'demo.estudiante@tsj.edu.mx',
-    password: '123456',
-    role: 'student'
-  },
-  {
-    id: 2,
-    username: 'demo.psico@tsj.edu.mx',
-    email: 'demo.psico@tsj.edu.mx',
-    password: '123456',
-    role: 'psychologist'
-  }
-];
-
+// LOGIN
 async function login(req, res) {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).json({ message: 'Usuario y contraseña son requeridos.' });
+    return res
+      .status(400)
+      .json({ message: 'Usuario y contraseña son requeridos.' });
   }
 
-  const foundUser = demoUsers.find(
-    u => (u.username === username || u.email === username) && u.password === password
-  );
+  try {
+    const result = await query(
+      'SELECT id, email, password, role, display_name FROM users WHERE email = $1',
+      [username]
+    );
 
-  if (!foundUser) {
-    return res.status(401).json({ message: 'Credenciales no válidas.' });
-  }
-
-  const token = 'demo-token-tsj';
-
-  res.json({
-    token,
-    user: {
-      id: foundUser.id,
-      role: foundUser.role,
-      email: foundUser.email
+    if (result.rowCount === 0) {
+      return res.status(401).json({ message: 'Credenciales no válidas.' });
     }
-  });
+
+    const user = result.rows[0];
+
+    // POR AHORA: comparación en texto plano (luego se cambia a bcrypt)
+    if (user.password !== password) {
+      return res.status(401).json({ message: 'Credenciales no válidas.' });
+    }
+
+    // Token “dummy” para el POC
+    const token = 'demo-token-tsj';
+
+    res.json({
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        displayName: user.display_name
+      }
+    });
+  } catch (err) {
+    console.error('Error en login:', err);
+    res.status(500).json({ message: 'Error interno al iniciar sesión.' });
+  }
 }
 
+// REGISTER
 async function register(req, res) {
   const { displayName, email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ message: 'Correo y contraseña son requeridos.' });
+    return res
+      .status(400)
+      .json({ message: 'Correo y contraseña son requeridos.' });
   }
 
-  const existing = demoUsers.find(u => u.email === email);
-  if (existing) {
-    return res.status(409).json({ message: 'Este correo ya está registrado (demo).' });
+  try {
+    // Verificar si ya existe
+    const existing = await query('SELECT id FROM users WHERE email = $1', [
+      email
+    ]);
+
+    if (existing.rowCount > 0) {
+      return res
+        .status(409)
+        .json({ message: 'Este correo ya está registrado.' });
+    }
+
+    const insert = await query(
+      `INSERT INTO users (email, password, role, display_name)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id, email, role, display_name`,
+      [email, password, 'student', displayName || null]
+    );
+
+    const user = insert.rows[0];
+
+    res.status(201).json({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      displayName: user.display_name
+    });
+  } catch (err) {
+    console.error('Error en registro:', err);
+    res.status(500).json({ message: 'Error interno al registrar usuario.' });
   }
-
-  const newUser = {
-    id: demoUsers.length + 1,
-    username: email,
-    email,
-    password,
-    role: 'student',
-    displayName: displayName || null
-  };
-
-  demoUsers.push(newUser);
-
-  res.status(201).json({
-    id: newUser.id,
-    email: newUser.email,
-    role: newUser.role
-  });
 }
 
 module.exports = { login, register };

@@ -1,5 +1,7 @@
 // frontend/src/js/views/questionnaire.js
 
+const API_BASE_URL = 'http://localhost:3000';
+
 document.addEventListener('DOMContentLoaded', () => {
   protectRouteForStudent();
   setupLogout();
@@ -41,8 +43,18 @@ function setupLogout() {
   });
 }
 
+function getCurrentUserId() {
+  const userRaw = localStorage.getItem('currentUser');
+  if (!userRaw) return null;
+  try {
+    const user = JSON.parse(userRaw);
+    return user.id || null;
+  } catch {
+    return null;
+  }
+}
+
 // --- Cuestionario GAD‑7 (frontend) ---
-// Estructura basada en el instrumento original GAD‑7. [web:2][web:3]
 
 const GAD7_QUESTIONS = [
   'Sentirte nervioso/a, ansioso/a o al borde.',
@@ -70,14 +82,48 @@ function initQuestionnaire() {
   // Por ahora solo GAD‑7
   renderGAD7Questions();
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const result = computeGAD7Score();
-    if (!result) {
+
+    const answers = collectGad7Answers();
+    if (!answers) {
       alert('Por favor responde todas las preguntas antes de enviar.');
       return;
     }
-    showResults(result);
+
+    const userId = getCurrentUserId();
+    if (!userId) {
+      alert('No se encontró tu sesión. Vuelve a iniciar sesión.');
+      window.location.href = './login.html';
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/questionnaires/gad7/responses`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ userId, answers })
+        }
+      );
+
+      if (!response.ok) {
+        const errBody = await safeJson(response);
+        const message =
+          errBody?.message || 'No fue posible guardar tu respuesta.';
+        alert(message);
+        return;
+      }
+
+      const data = await response.json();
+      showResults({ total: data.totalScore, level: data.riskLevel });
+    } catch (err) {
+      console.error('Error al enviar respuestas GAD-7:', err);
+      alert('Ocurrió un error al enviar tus respuestas. Intenta de nuevo.');
+    }
   });
 }
 
@@ -131,8 +177,9 @@ function renderGAD7Questions() {
   });
 }
 
-function computeGAD7Score() {
-  let total = 0;
+// ahora solo recolecta respuestas; el cálculo lo hace el backend
+function collectGad7Answers() {
+  const answers = [];
 
   for (let i = 0; i < GAD7_QUESTIONS.length; i++) {
     const qName = `q${i + 1}`;
@@ -140,14 +187,14 @@ function computeGAD7Score() {
     if (!selected) {
       return null;
     }
-    total += Number(selected.value);
+    answers.push(Number(selected.value));
   }
 
-  const level = gad7RiskLevel(total);
-  return { total, level };
+  return answers;
 }
 
-// Rangos estándar GAD‑7. [web:2][web:5]
+// ya no se usa computeGAD7Score, lo puedes borrar o dejar sin usar
+
 function gad7RiskLevel(score) {
   if (score <= 4) return 'Mínimo';
   if (score <= 9) return 'Leve';
@@ -166,13 +213,10 @@ function showResults({ total, level }) {
     'Te recomendamos comentar estos resultados con un profesional de la salud mental si te generan preocupación.';
 
   section.style.display = 'block';
-
-  // Desplazar hacia resultados
   section.scrollIntoView({ behavior: 'smooth' });
 }
 
-// --- Solicitud de apoyo (por ahora sin backend) ---
-
+// Solicitud de apoyo (mock)
 function setupSupportForm() {
   const form = document.getElementById('supportForm');
   if (!form) return;
@@ -192,7 +236,18 @@ function setupSupportForm() {
     };
 
     console.log('Support request payload (mock):', payload);
-    alert('Tu solicitud ha sido registrada en esta versión piloto. En la versión final se enviará al área de psicología del TSJ.');
+    alert(
+      'Tu solicitud ha sido registrada en esta versión piloto. En la versión final se enviará al área de psicología del TSJ.'
+    );
     form.reset();
   });
 }
+
+async function safeJson(response) {
+  try {
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
